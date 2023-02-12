@@ -8,6 +8,7 @@ import { ConfigModule } from "@nestjs/config";
 import { UserModule } from "./app/user/user.module";
 import { DepartmentModule } from "./app/department/department.module";
 import { OrganizationModule } from "./app/organization/organization.module";
+import { ServiceCallModule } from "./app/service-call/service-call.module";
 
 @Module({
     imports: [
@@ -18,6 +19,7 @@ import { OrganizationModule } from "./app/organization/organization.module";
         UserModule,
         DepartmentModule,
         OrganizationModule,
+        ServiceCallModule,
     ],
     controllers: [AppController],
     providers: [

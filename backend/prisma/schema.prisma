@@ -11,15 +11,16 @@ datasource db {
 }
 
 model Organization {
-  id          String       @id @default(uuid())
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @default(now())
+  id          String        @id @default(uuid())
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @default(now())
   name        String
   email       String
-  cnpj        String       @unique
+  cnpj        String        @unique
   cellphone   String
   departments Department[]
   employees   User[]
+  ServiceCall ServiceCall[]
 }
 
 model Department {
@@ -33,6 +34,7 @@ model Department {
   members                    User[]
   organizationId             String?
   fk_Department_Organization Organization? @relation(fields: [organizationId], references: [id])
+  ServiceCall                ServiceCall[]
 }
 
 model User {
@@ -52,15 +54,19 @@ model User {
 }
 
 model ServiceCall {
-  id                  String    @id @default(uuid())
-  createdAt           DateTime  @default(now())
-  updatedAt           DateTime  @default(now())
-  initiatedAt         DateTime  @default(now())
-  finishedAt          DateTime?
-  longDescription     String?
-  shortDescription    String?
-  currentState        String
-  priority            String
-  userId              String?
-  fk_ServiceCall_User User?     @relation(fields: [userId], references: [id])
+  id                          String        @id @default(uuid())
+  createdAt                   DateTime      @default(now())
+  updatedAt                   DateTime      @default(now())
+  initiatedAt                 DateTime?
+  finishedAt                  DateTime?
+  longDescription             String?
+  shortDescription            String
+  currentState                Int
+  priority                    Int
+  userId                      String?
+  organizationId              String?
+  departmentId                String?
+  fk_ServiceCall_User         User?         @relation(fields: [userId], references: [id])
+  fk_ServiceCall_Organization Organization? @relation(fields: [organizationId], references: [id])
+  fk_ServiceCall_Department   Department?   @relation(fields: [departmentId], references: [id])
 }

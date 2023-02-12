@@ -9,8 +9,8 @@ export class OrganizationDto {
 
     @ApiProperty()
     @IsNotEmpty()
-    @MinLength(14, { message: "CNPJ is not correctly filled up. They have 14 characters." })
-    @MaxLength(14, { message: "CNPJ is not correctly filled up. They have 14 characters." })
+    @MinLength(14, { message: "The CNPJ is not filled in correctly. It must be 14 characters long." })
+    @MaxLength(14)
     cnpj: string;
 
     @ApiProperty()

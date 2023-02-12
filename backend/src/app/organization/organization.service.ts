@@ -1,8 +1,9 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { Organization } from "@prisma/client";
-import { equals } from "class-validator";
+import { CONTEXT } from "src/constants";
+import { CreateError, DeleteError, GetError, UpdateError } from "src/errors/";
 import { PrismaService } from "src/prisma/prisma.service";
-import { ErrorType } from "src/types/ErrorType";
+import { ObjectIsEmpty } from "src/utils";
 import { OrganizationDto } from "../../dto/organization.dto";
 
 @Injectable()
@@ -10,64 +11,77 @@ export class OrganizationService {
     constructor(private prisma: PrismaService) {}
 
     async create(dto: OrganizationDto) {
-        const existing = await this.prisma.organization.findUnique({
-            where: { cnpj: dto.name },
-        });
-
-        if (existing) {
-            throw new BadRequestException(ErrorType.OrganizationExists);
+        try {
+            return await this.prisma.organization.create({
+                data: {
+                    email: dto.email,
+                    name: dto.name,
+                    cnpj: dto.cnpj,
+                    cellphone: dto.cellphone,
+                },
+            });
+        } catch (error) {
+            throw new HttpException(CreateError(error, CONTEXT.DEPARTMENT), HttpStatus.BAD_REQUEST);
         }
-
-        const organization = await this.prisma.organization.create({
-            data: {
-                email: dto.email,
-                name: dto.name,
-                cnpj: dto.cnpj,
-                cellphone: dto.cellphone,
-            },
-        });
-
-        return organization;
     }
 
     async findAll() {
-        let organizations: Organization[];
+        try {
+            let organizations: Organization[];
 
-        organizations = await this.prisma.organization.findMany();
-        if (organizations.length == 0) {
-            return "None organizations have been found.";
+            organizations = await this.prisma.organization.findMany();
+            if (organizations.length == 0) {
+                return { message: "None organizations have been found." };
+            }
+
+            return organizations;
+        } catch (error) {
+            throw new HttpException(GetError(error, CONTEXT.ORGANIZATION), HttpStatus.BAD_REQUEST);
         }
-
-        return organizations;
     }
 
     async findByCnpj(cnpj) {
-        const organization = await this.prisma.organization.findUnique({
-            where: { cnpj },
-        });
+        try {
+            const organization = await this.prisma.organization.findUnique({
+                where: { cnpj },
+            });
 
-        if (!organization) {
-            return "There are no organizations with this cnpj.";
+            if (!organization) {
+                return { message: "There are no organizations with this cnpj." };
+            }
+
+            return organization;
+        } catch (error) {
+            throw new HttpException(GetError(error, CONTEXT.ORGANIZATION), HttpStatus.BAD_REQUEST);
         }
-
-        return organization;
     }
 
     async update(cnpj, payload) {
-        if (!cnpj) {
-            return "Cannot update because there are no organizations with this cnpj.";
-        }
+        try {
+            if (cnpj && !ObjectIsEmpty(payload)) {
+                return await this.prisma.organization.update({
+                    where: { cnpj },
+                    data: { ...payload, updatedAt: new Date() },
+                });
+            }
 
-        return await this.prisma.organization.update({ where: { cnpj }, data: payload });
+            return { message: "Cannot update because there are no organizations with this cnpj or theres nothing to update." };
+        } catch (error) {
+            throw new HttpException(UpdateError(error, CONTEXT.ORGANIZATION), HttpStatus.BAD_REQUEST);
+        }
     }
 
-    async delete(cnpj?) {
-        if (!cnpj) {
-            return "Cannot delete because there are no organizations with this cnpj.";
+    async delete(cnpj) {
+        try {
+            if (!cnpj) {
+                return { message: "Cannot delete because there are no organizations with this cnpj." };
+            }
+            await this.prisma.organization.delete({
+                where: { cnpj },
+            });
+        } catch (error) {
+            throw new HttpException(DeleteError(error, CONTEXT.ORGANIZATION), HttpStatus.BAD_REQUEST);
         }
-        await this.prisma.organization.delete({
-            where: { cnpj },
-        });
     }
 }
 

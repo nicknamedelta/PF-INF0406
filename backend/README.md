@@ -1,6 +1,12 @@
-#### GErenciador de Chamados de TI - GECTI
+# GErenciador de Chamados de TI - GECTI
 
 Implementação do backend da aplicação, aqui foram implementados as entidades de Usuário, Empresa, Departamento e Chamado.
+
+## Equipe com seus respectivos membros
+
+-   EVALDO FELIPE LIMA - 201907454
+-   IAN MORAES EDUARDO - 201907471
+-   LUIZ ANTONIO ROBERTO GROOTERS JUNIOR - 201907483
 
 ## Comandos Prisma CLI:
 
@@ -16,6 +22,10 @@ No navegador, acesse a url: [localhost:3000/api/](http://localhost:3000/api/)
 
 ## :runner: Como rodar este projeto?
 
+-   É necessário popular o arquivo `.env` com os dados exatos do `.env.example`
+    -   Para gerar o token JWT, acesse: [jwt.io/](https://jwt.io/)
+    -   Para gerar a Url do Banco de Dados Postgres através do Railway, acesse: [railway.app/](https://railway.app/)
+
 ```
 yarn dev
 ```
@@ -29,5 +39,4 @@ yarn dev
 -   [Deploy Nest.Js on Cloud Run](https://www.tomray.dev/deploy-nestjs-cloud-run)
 -   [Prisma Docs](https://www.prisma.io/docs/getting-started)
 -   [Prisma PostgreSQL](https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#specify-a-postgresql-data-source)
--   [Class Validator Validation Erros](https://github.com/typestack/class-validator#validation-errors)
-
+-   [Prisma Error Codes](https://www.prisma.io/docs/reference/api-reference/error-reference#error-codes)

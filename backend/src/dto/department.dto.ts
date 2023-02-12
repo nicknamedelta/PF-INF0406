@@ -10,7 +10,7 @@ export class DepartmentDto {
 
     @ApiProperty()
     @IsNotEmpty()
-    @MinLength(3)
+    @MinLength(3, { message: "The Abbreviation is not filled in correctly. It must be between 3 to 8 characters long." })
     @MaxLength(8)
     abbreviation: string;
 

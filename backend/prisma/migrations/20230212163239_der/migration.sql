@@ -1,6 +1,8 @@
 -- CreateTable
 CREATE TABLE "Organization" (
     "id" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "cnpj" TEXT NOT NULL,
@@ -13,7 +15,9 @@ CREATE TABLE "Organization" (
 CREATE TABLE "Department" (
     "id" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "name" TEXT NOT NULL,
+    "abbreviation" TEXT NOT NULL,
     "priority" INTEGER NOT NULL,
     "place" TEXT NOT NULL,
     "organizationId" TEXT,
@@ -42,13 +46,15 @@ CREATE TABLE "ServiceCall" (
     "id" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "initiatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "initiatedAt" TIMESTAMP(3),
     "finishedAt" TIMESTAMP(3),
     "longDescription" TEXT,
-    "shortDescription" TEXT,
-    "currentState" TEXT NOT NULL,
-    "priority" TEXT NOT NULL,
+    "shortDescription" TEXT NOT NULL,
+    "currentState" INTEGER NOT NULL,
+    "priority" INTEGER NOT NULL,
     "userId" TEXT,
+    "organizationId" TEXT,
+    "departmentId" TEXT,
 
     CONSTRAINT "ServiceCall_pkey" PRIMARY KEY ("id")
 );
@@ -57,7 +63,7 @@ CREATE TABLE "ServiceCall" (
 CREATE UNIQUE INDEX "Organization_cnpj_key" ON "Organization"("cnpj");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Department_name_key" ON "Department"("name");
+CREATE UNIQUE INDEX "Department_abbreviation_key" ON "Department"("abbreviation");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
@@ -73,3 +79,9 @@ ALTER TABLE "User" ADD CONSTRAINT "User_departmentId_fkey" FOREIGN KEY ("departm
 
 -- AddForeignKey
 ALTER TABLE "ServiceCall" ADD CONSTRAINT "ServiceCall_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ServiceCall" ADD CONSTRAINT "ServiceCall_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "Organization"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ServiceCall" ADD CONSTRAINT "ServiceCall_departmentId_fkey" FOREIGN KEY ("departmentId") REFERENCES "Department"("id") ON DELETE SET NULL ON UPDATE CASCADE;
