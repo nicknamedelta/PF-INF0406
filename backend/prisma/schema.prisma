@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Organization {
+  id          String       @id @default(uuid())
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @default(now())
+  name        String
+  email       String
+  cnpj        String       @unique
+  cellphone   String
+  departments Department[]
+  employees   User[]
+}
+
+model Department {
+  id                         String        @id @default(uuid())
+  createdAt                  DateTime      @default(now())
+  updatedAt                  DateTime      @default(now())
+  name                       String
+  abbreviation               String        @unique
+  priority                   Int
+  place                      String
+  members                    User[]
+  organizationId             String?
+  fk_Department_Organization Organization? @relation(fields: [organizationId], references: [id])
+}
+
+model User {
+  id                   String        @id @default(uuid())
+  createdAt            DateTime      @default(now())
+  updatedAt            DateTime      @default(now())
+  name                 String
+  email                String        @unique
+  password             String
+  role                 String
+  userType             String
+  serviceCalls         ServiceCall[]
+  organizationId       String?
+  departmentId         String?
+  fk_User_Organization Organization? @relation(fields: [organizationId], references: [id])
+  fk_User_Department   Department?   @relation(fields: [departmentId], references: [id])
+}
+
+model ServiceCall {
+  id                  String    @id @default(uuid())
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @default(now())
+  initiatedAt         DateTime  @default(now())
+  finishedAt          DateTime?
+  longDescription     String?
+  shortDescription    String?
+  currentState        String
+  priority            String
+  userId              String?
+  fk_ServiceCall_User User?     @relation(fields: [userId], references: [id])
+}
