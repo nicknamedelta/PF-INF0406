@@ -10,7 +10,7 @@ Implementação do backend da aplicação, aqui foram implementados as entidades
 
 ## Acesso a documentação do Swagger:
 
-No navegador, acesse a url: [localhost:3000/api/](http://localhost:3000/api/)
+No navegador, acesse esta url: [localhost:3000/api/](http://localhost:3000/api/)
 
 ## :runner: Como rodar este projeto?
 
