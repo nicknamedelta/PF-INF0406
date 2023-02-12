@@ -44,7 +44,7 @@ export class OrganizationService {
     async findByCnpj(cnpj) {
         try {
             const organization = await this.prisma.organization.findUnique({
-                where: { cnpj: cnpj },
+                where: { cnpj },
             });
 
             if (!organization) {
