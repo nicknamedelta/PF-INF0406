@@ -13,6 +13,17 @@ async function bootstrap() {
         .setDescription("Projeto final da disciplina de Desenvolvimento Full Stack - 2022.2.")
         .setVersion("1.0")
         .addTag("GECTI")
+        .addBearerAuth(
+            {
+                type: "http",
+                scheme: "bearer",
+                bearerFormat: "jwt",
+                name: "jwt",
+                description: "Enter jwt token:",
+                in: "header",
+            },
+            "token",
+        )
         .build();
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup("api", app, document);

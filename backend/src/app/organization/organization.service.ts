@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { Organization } from "@prisma/client";
+import { equals } from "class-validator";
 import { CONTEXT } from "src/constants";
 import { CreateError, DeleteError, GetError, UpdateError } from "src/errors/";
 import { PrismaService } from "src/prisma/prisma.service";
@@ -43,7 +44,7 @@ export class OrganizationService {
     async findByCnpj(cnpj) {
         try {
             const organization = await this.prisma.organization.findUnique({
-                where: { cnpj },
+                where: { cnpj: cnpj },
             });
 
             if (!organization) {

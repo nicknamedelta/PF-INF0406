@@ -34,20 +34,13 @@ export class UserService {
         }
     }
 
-    async findAll(name?) {
+    async findAll() {
         try {
             let users: User[];
 
-            if (!name) {
-                return this.prisma.user.findMany();
-            } else {
-                users = await this.prisma.user.findMany({
-                    where: { name: { equals: name } },
-                });
-            }
-
+            users = await this.prisma.user.findMany();
             if (users.length == 0) {
-                return { message: "There are no users with this name." };
+                return { message: "There are no registered users." };
             }
 
             return users;
@@ -59,13 +52,14 @@ export class UserService {
     async findByEmail(email) {
         try {
             const user = await this.prisma.user.findUnique({
-                where: { email },
+                where: { email: email },
             });
 
             if (!user) {
                 return { message: "There are no users with this email." };
             }
 
+            delete user.password;
             return user;
         } catch (error) {
             throw new HttpException(GetError(error, CONTEXT.USER), HttpStatus.BAD_REQUEST);

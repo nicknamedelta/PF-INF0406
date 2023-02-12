@@ -1,15 +1,20 @@
 import { Controller, Get, Req } from "@nestjs/common";
-import { Body, Delete, HttpCode, Param, Post, Put } from "@nestjs/common/decorators";
+import { Body, Delete, HttpCode, Param, Post, Put, UseGuards } from "@nestjs/common/decorators";
 import { Public } from "src/decorators/public.decorator";
 import { ServiceCallService } from "./service-call.service";
 import { ServiceCallDto } from "../../dto/service-call.dto";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { AuthGuard } from "@nestjs/passport";
 
+@ApiTags("Service-call")
 @Controller("service-call")
+@UseGuards(AuthGuard("jwt"))
+@ApiBearerAuth("token")
 export class ServiceCallController {
     constructor(private readonly serviceCallService: ServiceCallService) {}
 
     @Public()
-    @Get("/")
+    @Get("/all")
     findAll() {
         return this.serviceCallService.findAll();
     }
