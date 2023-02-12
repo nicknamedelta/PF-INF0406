@@ -1,6 +1,6 @@
 #### GErenciador de Chamados de TI - GECTI
 
-Implementação do backend da aplicação, aqui foram implementados as entidades de Usuário, Empresa e Chamados.
+Implementação do backend da aplicação, aqui foram implementados as entidades de Usuário, Empresa, Departamento e Chamado.
 
 ## Comandos Prisma CLI:
 
@@ -30,3 +30,4 @@ yarn dev
 -   [Prisma Docs](https://www.prisma.io/docs/getting-started)
 -   [Prisma PostgreSQL](https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#specify-a-postgresql-data-source)
 -   [Class Validator Validation Erros](https://github.com/typestack/class-validator#validation-errors)
+
