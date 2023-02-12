@@ -18,8 +18,9 @@ No navegador, acesse esta url: [localhost:3000/api/](http://localhost:3000/api/)
     1.  Para gerar o token JWT, acesse: [jwt.io/](https://jwt.io/)
     2.  Para gerar a Url do Banco de Dados Postgres através do Railway, acesse: [railway.app/](https://railway.app/)
     3.  Para manter o schema do banco sincronizado com o schema Prisma, execute no terminal: `yarn migrate:dev`
-    4.  Para rodar o projeto, execute no terminal: `yarn dev`
-    5.  A aplicação vai estar rodando em [localhost:3000/api/](http://localhost:3000/)
+    4.  É necessário o seguinte comando para gerar: `yarn generate:watch`
+    5.  Para rodar o projeto, execute no terminal: `yarn dev`
+    6.  A aplicação vai estar rodando em [localhost:3000/api/](http://localhost:3000/)
 
 ## Referências
 

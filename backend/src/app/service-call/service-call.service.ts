@@ -1,6 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
-import * as bcrypt from "bcryptjs";
-import { ServiceCall, User } from "@prisma/client";
+import { ServiceCall } from "@prisma/client";
 import { PrismaService } from "src/prisma/prisma.service";
 import { CONTEXT } from "src/constants";
 import { CreateError, DeleteError, GetError, UpdateError } from "src/errors/";
@@ -75,8 +74,6 @@ export class ServiceCallService {
 
             return { message: "Cannot update because there are no services with this id or theres nothing to update." };
         } catch (error) {
-            console.log(error);
-
             throw new HttpException(UpdateError(error, CONTEXT.SERVICE_CALL), HttpStatus.BAD_REQUEST);
         }
     }

@@ -8,6 +8,7 @@ export const UpdateError = (error, context) => {
             code: error.code,
             version: error.clientVersion,
             fields: error.meta.target,
+            cause: error.meta.cause,
             context,
         },
     };

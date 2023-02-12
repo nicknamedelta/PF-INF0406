@@ -77,8 +77,6 @@ export class UserService {
 
             return { message: "Cannot update because there are no users with this email or theres nothing to update." };
         } catch (error) {
-            console.log(error);
-
             throw new HttpException(UpdateError(error, CONTEXT.USER), HttpStatus.BAD_REQUEST);
         }
     }

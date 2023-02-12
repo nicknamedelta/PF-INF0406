@@ -22,7 +22,7 @@ export class DepartmentService {
                 },
             });
         } catch (error) {
-            throw new HttpException(CreateError(error, CONTEXT.USER), HttpStatus.BAD_REQUEST);
+            throw new HttpException(CreateError(error, CONTEXT.DEPARTMENT), HttpStatus.BAD_REQUEST);
         }
     }
 
