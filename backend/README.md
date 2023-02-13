@@ -8,10 +8,6 @@ Implementação do backend da aplicação, aqui foram implementados as entidades
 -   IAN MORAES EDUARDO - 201907471
 -   LUIZ ANTONIO ROBERTO GROOTERS JUNIOR - 201907483
 
-## Acesso a documentação do Swagger:
-
-No navegador, acesse esta url: [localhost:3000/api/](http://localhost:3000/api/)
-
 ## :runner: Como rodar este projeto?
 
 -   É necessário popular o arquivo `.env` com os dados exatos do `.env.example`, atualizar o banco e por fim rodar o projeto:
@@ -21,6 +17,10 @@ No navegador, acesse esta url: [localhost:3000/api/](http://localhost:3000/api/)
     4.  É necessário o seguinte comando para gerar o client do Prisma: `yarn generate:watch`
     5.  Para rodar o projeto, execute no terminal: `yarn dev`
     6.  A aplicação vai estar rodando em [localhost:3000/api/](http://localhost:3000/)
+
+## Acesso a documentação do Swagger:
+
+No navegador, acesse esta url: [localhost:3000/api/](http://localhost:3000/api/)
 
 ## Referências
 
