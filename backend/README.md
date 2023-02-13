@@ -7,6 +7,7 @@ Implementação do backend da aplicação, aqui foram implementados as entidades
 -   EVALDO FELIPE LIMA - 201907454
 -   IAN MORAES EDUARDO - 201907471
 -   LUIZ ANTONIO ROBERTO GROOTERS JUNIOR - 201907483
+-   THIAGO DA SILVEIRA WEHREN - 201907508
 
 ## :runner: Como rodar este projeto?
 
