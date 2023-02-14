@@ -43,6 +43,8 @@ export class UserService {
                 return { message: "There are no registered users." };
             }
 
+            users.forEach((user) => delete user.password);
+
             return users;
         } catch (error) {
             throw new HttpException(GetError(error, CONTEXT.USER), HttpStatus.BAD_REQUEST);
