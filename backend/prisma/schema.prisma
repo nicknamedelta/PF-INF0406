@@ -32,8 +32,8 @@ model Department {
   priority                   Int
   place                      String
   members                    User[]
-  organizationId             String?
-  fk_Department_Organization Organization? @relation(fields: [organizationId], references: [id])
+  organizationId             String
+  fk_Department_Organization Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   ServiceCall                ServiceCall[]
 }
 
@@ -47,10 +47,10 @@ model User {
   role                 String
   userType             String
   serviceCalls         ServiceCall[]
-  organizationId       String?
-  departmentId         String?
-  fk_User_Organization Organization? @relation(fields: [organizationId], references: [id])
-  fk_User_Department   Department?   @relation(fields: [departmentId], references: [id])
+  organizationId       String
+  departmentId         String
+  fk_User_Organization Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  fk_User_Department   Department    @relation(fields: [departmentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model ServiceCall {
@@ -66,7 +66,7 @@ model ServiceCall {
   userId                      String?
   organizationId              String?
   departmentId                String?
-  fk_ServiceCall_User         User?         @relation(fields: [userId], references: [id])
-  fk_ServiceCall_Organization Organization? @relation(fields: [organizationId], references: [id])
-  fk_ServiceCall_Department   Department?   @relation(fields: [departmentId], references: [id])
+  fk_ServiceCall_User         User?         @relation(fields: [userId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  fk_ServiceCall_Organization Organization? @relation(fields: [organizationId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  fk_ServiceCall_Department   Department?   @relation(fields: [departmentId], references: [id], onDelete: SetNull, onUpdate: Cascade)
 }
