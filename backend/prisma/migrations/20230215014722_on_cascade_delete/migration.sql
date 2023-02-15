@@ -63,9 +63,6 @@ CREATE TABLE "ServiceCall" (
 CREATE UNIQUE INDEX "Organization_cnpj_key" ON "Organization"("cnpj");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Department_abbreviation_key" ON "Department"("abbreviation");
-
--- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- AddForeignKey

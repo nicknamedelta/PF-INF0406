@@ -32,7 +32,7 @@ export class DepartmentService {
 
             departments = await this.prisma.department.findMany();
             if (departments.length == 0) {
-                return { message: "None departments have been found." };
+                return { status: 400, error: "None departments have been found." };
             }
 
             return departments;
@@ -41,44 +41,37 @@ export class DepartmentService {
         }
     }
 
-    async findByAbbreviation(abbreviation) {
-        try {
-            const department = await this.prisma.department.findUnique({
-                where: { abbreviation },
-            });
-
-            if (!department) {
-                return { message: "There are no departments with this abbreviation." };
-            }
-
-            return department;
-        } catch (error) {
-            throw new HttpException(GetError(error, CONTEXT.DEPARTMENT), HttpStatus.BAD_REQUEST);
-        }
+    async findById(id) {
+        return await this.prisma.department.findUnique({
+            where: { id },
+            include: {
+                members: true,
+            },
+        });
     }
 
-    async update(abbreviation, payload) {
+    async update(id, payload) {
         try {
-            if (abbreviation && !ObjectIsEmpty(payload)) {
+            if (id && !ObjectIsEmpty(payload)) {
                 return await this.prisma.department.update({
-                    where: { abbreviation },
+                    where: { id },
                     data: { ...payload, updatedAt: new Date() },
                 });
             }
 
-            return { message: "Cannot update because there are no departments with this abbreviation." };
+            return { error: "Cannot update because there are no departments with this id." };
         } catch (error) {
             throw new HttpException(UpdateError(error, CONTEXT.DEPARTMENT), HttpStatus.BAD_REQUEST);
         }
     }
 
-    async delete(abbreviation) {
+    async delete(id) {
         try {
-            if (!abbreviation) {
-                return { message: "Cannot update because there are no departments with this abbreviation or theres nothing to update." };
+            if (!id) {
+                return { error: "Cannot delete because there are no departments with this id." };
             }
             await this.prisma.department.delete({
-                where: { abbreviation },
+                where: { id },
             });
         } catch (error) {
             throw new HttpException(DeleteError(error, CONTEXT.DEPARTMENT), HttpStatus.BAD_REQUEST);

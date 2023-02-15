@@ -32,7 +32,7 @@ export class OrganizationService {
 
             organizations = await this.prisma.organization.findMany();
             if (organizations.length == 0) {
-                return { message: "None organizations have been found." };
+                return { status: 400, error: "None organizations have been found." };
             }
 
             return organizations;
@@ -48,13 +48,23 @@ export class OrganizationService {
             });
 
             if (!organization) {
-                return { message: "There are no organizations with this cnpj." };
+                return { status: 400, error: "There are no organizations with this cnpj." };
             }
 
             return organization;
         } catch (error) {
             throw new HttpException(GetError(error, CONTEXT.ORGANIZATION), HttpStatus.BAD_REQUEST);
         }
+    }
+
+    async findById(id) {
+        return await this.prisma.organization.findUnique({
+            where: { id },
+            include: {
+                employees: true,
+                departments: true,
+            },
+        });
     }
 
     async update(cnpj, payload) {
@@ -66,7 +76,7 @@ export class OrganizationService {
                 });
             }
 
-            return { message: "Cannot update because there are no organizations with this cnpj or theres nothing to update." };
+            return { status: 400, error: "Cannot update because there are no organizations with this cnpj or theres nothing to update." };
         } catch (error) {
             throw new HttpException(UpdateError(error, CONTEXT.ORGANIZATION), HttpStatus.BAD_REQUEST);
         }
@@ -75,7 +85,7 @@ export class OrganizationService {
     async delete(cnpj) {
         try {
             if (!cnpj) {
-                return { message: "Cannot delete because there are no organizations with this cnpj." };
+                return { status: 400, error: "Cannot delete because there are no organizations with this cnpj." };
             }
             await this.prisma.organization.delete({
                 where: { cnpj },

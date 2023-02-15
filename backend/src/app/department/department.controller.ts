@@ -1,4 +1,4 @@
-import { Controller, Get, Req } from "@nestjs/common";
+import { Controller, Get, HttpException, HttpStatus, Req } from "@nestjs/common";
 import { Body, Delete, HttpCode, Param, Post, Put, UseGuards } from "@nestjs/common/decorators";
 import { Public } from "src/decorators/public.decorator";
 import { DepartmentService } from "./department.service";
@@ -20,11 +20,15 @@ export class DepartmentController {
     }
 
     @Public()
-    @Get("/:abbreviation")
+    @Get("/:id")
     @UseGuards(AuthGuard("jwt"))
     @ApiBearerAuth("token")
-    findByAbbreviation(@Param("abbreviation") abbreviation: string) {
-        return this.departmentService.findByAbbreviation(abbreviation);
+    findById(@Param("id") id: string) {
+        try {
+            return this.departmentService.findById(id);
+        } catch (error) {
+            throw new HttpException({ error: "No departments are found with this id.", status: HttpStatus.BAD_REQUEST }, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @Public()
@@ -34,20 +38,20 @@ export class DepartmentController {
     }
 
     @Public()
-    @Put("/update/:abbreviation")
+    @Put("/update/:id")
     @UseGuards(AuthGuard("jwt"))
     @ApiBearerAuth("token")
-    updateByAbbreviation(@Body() payload, @Param("abbreviation") abbreviation: string) {
-        return this.departmentService.update(abbreviation, payload);
+    updateById(@Body() payload, @Param("id") id: string) {
+        return this.departmentService.update(id, payload);
     }
 
     @Public()
     @HttpCode(204)
-    @Delete("/delete/:abbreviation")
+    @Delete("/delete/:id")
     @UseGuards(AuthGuard("jwt"))
     @ApiBearerAuth("token")
-    deleteByAbbreviation(@Param("abbreviation") abbreviation: string) {
-        return this.departmentService.delete(abbreviation);
+    deleteById(@Param("id") id: string) {
+        return this.departmentService.delete(id);
     }
 }
 

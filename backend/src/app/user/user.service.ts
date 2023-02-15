@@ -6,14 +6,27 @@ import { UserDto } from "../../dto/user.dto";
 import { CONTEXT } from "src/constants";
 import { CreateError, DeleteError, GetError, UpdateError } from "src/errors/";
 import { ObjectIsEmpty } from "src/utils";
+import { OrganizationService } from "../organization/organization.service";
 
 @Injectable()
 export class UserService {
-    constructor(private prisma: PrismaService) {}
+    constructor(private prisma: PrismaService, private organizationService: OrganizationService) {}
 
     async create(dto: UserDto) {
+        let error = {};
         try {
             const hashedPassword = await bcrypt.hash(dto.password, 10);
+
+            const organization = await this.organizationService.findById(dto.organizationId);
+            if (!organization) {
+                return { status: 400, error: "Theres no register of an organization with this id." };
+            }
+
+            const department = organization.departments.find((item) => item.id === dto.departmentId);
+
+            if (!department) {
+                return { status: 400, error: "There are none departments with those id on this organization." };
+            }
 
             const user = await this.prisma.user.create({
                 data: {
@@ -40,7 +53,7 @@ export class UserService {
 
             users = await this.prisma.user.findMany();
             if (users.length == 0) {
-                return { message: "There are no registered users." };
+                return { status: 400, error: "There are no registered users." };
             }
 
             users.forEach((user) => delete user.password);
@@ -58,7 +71,7 @@ export class UserService {
             });
 
             if (!user) {
-                return { message: "There are no users with this email." };
+                return { status: 400, error: "There are no users with this email." };
             }
 
             delete user.password;
@@ -77,7 +90,7 @@ export class UserService {
                 });
             }
 
-            return { message: "Cannot update because there are no users with this email or theres nothing to update." };
+            return { status: 400, error: "Cannot update because there are no users with this email or theres nothing to update." };
         } catch (error) {
             throw new HttpException(UpdateError(error, CONTEXT.USER), HttpStatus.BAD_REQUEST);
         }
@@ -86,7 +99,7 @@ export class UserService {
     async delete(emailAddress) {
         try {
             if (!emailAddress) {
-                return { message: "Cannot delete because there are no users with this email." };
+                return { status: 400, error: "Cannot delete because there are no users with this email." };
             }
             await this.prisma.user.delete({
                 where: { email: emailAddress },

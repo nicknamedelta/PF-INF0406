@@ -28,13 +28,13 @@ model Department {
   createdAt                  DateTime      @default(now())
   updatedAt                  DateTime      @default(now())
   name                       String
-  abbreviation               String        @unique
+  abbreviation               String
   priority                   Int
   place                      String
   members                    User[]
+  serviceCalls               ServiceCall[]
   organizationId             String
   fk_Department_Organization Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  ServiceCall                ServiceCall[]
 }
 
 model User {
