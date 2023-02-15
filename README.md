@@ -12,4 +12,4 @@ Implementação do backend e frontend da aplicação.
 ## :runner: Estrutura do projeto
 
 - Back-end:
-  - Apresentação: [link para apresentação nodrive](https://drive.google.com/file/d/1R0prqjnZUy29XFmHm291om1oSYWPyuEZ/view?usp=sharing)
+  - Apresentação: [link para apresentação no Google Drive](https://drive.google.com/file/d/1R0prqjnZUy29XFmHm291om1oSYWPyuEZ/view?usp=sharing)
