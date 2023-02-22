@@ -14,7 +14,6 @@ export class UserController {
 
     @Public()
     @Get("/all")
-    @UseGuards(AuthGuard("jwt"))
     @ApiBearerAuth("token")
     @ApiResponse({ status: 200, description: "Returns all registered users." })
     findAll() {
@@ -56,4 +55,3 @@ export class UserController {
         return this.userService.delete(email);
     }
 }
-

@@ -17,11 +17,11 @@ Implementação do backend da aplicação, aqui foram implementados as entidades
     3.  Para manter o schema do banco sincronizado com o schema Prisma, execute no terminal: `yarn migrate:dev`
     4.  É necessário o seguinte comando para gerar o client do Prisma: `yarn generate:watch`
     5.  Para rodar o projeto, execute no terminal: `yarn dev`
-    6.  A aplicação vai estar rodando em [localhost:3000/](http://localhost:3000/)
+    6.  A aplicação vai estar rodando em [localhost:3333/](http://localhost:3333/)
 
 ## Acesso a documentação do Swagger:
 
-No navegador, acesse esta url: [localhost:3000/api/](http://localhost:3000/api/)
+No navegador, acesse esta url: [localhost:3333/api/](http://localhost:3333/api/)
 
 ## Referências
 

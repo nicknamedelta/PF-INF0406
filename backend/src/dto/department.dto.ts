@@ -4,7 +4,7 @@ import { IsNotEmpty, MaxLength, MinLength } from "class-validator";
 export class DepartmentDto {
     @ApiProperty({ default: "Tecnologia da Informação e Comunicação", description: "Its name of department." })
     @IsNotEmpty()
-    @MinLength(6, { message: "The CNPJ is not filled in correctly. It must be between 6 to 45 characters long." })
+    @MinLength(6, { message: "The Name is not filled in correctly. It must be between 6 to 45 characters long." })
     @MaxLength(45)
     name: string;
 
@@ -23,7 +23,7 @@ export class DepartmentDto {
         description: "Wheres the department is located inside the organization.",
     })
     @IsNotEmpty()
-    @MaxLength(255, { message: "The CNPJ is not filled in correctly. It must be max 255 characters long." })
+    @MaxLength(255, { message: "The Place is not filled in correctly. It must be max 255 characters long." })
     place: string;
 
     @ApiProperty({
@@ -32,4 +32,3 @@ export class DepartmentDto {
     @IsNotEmpty()
     organizationId: string;
 }
-

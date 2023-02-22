@@ -27,10 +27,14 @@ export class DepartmentService {
     }
 
     async findAll() {
-        try {
-            let departments: Department[];
+        let departments: Department[];
 
-            departments = await this.prisma.department.findMany();
+        try {
+            departments = await this.prisma.department.findMany({
+                include: {
+                    Organization: true,
+                },
+            });
             if (departments.length == 0) {
                 return { status: 400, error: "None departments have been found." };
             }
@@ -47,6 +51,12 @@ export class DepartmentService {
             include: {
                 members: true,
             },
+        });
+    }
+
+    async findByOragnizationId(id) {
+        return await this.prisma.department.findMany({
+            where: { organizationId: id },
         });
     }
 
@@ -78,4 +88,3 @@ export class DepartmentService {
         }
     }
 }
-

@@ -20,6 +20,12 @@ export class ServiceCallController {
     }
 
     @Public()
+    @Get("/user/:userId/all")
+    findByUser(@Body() payload, @Param("userId") userId: string) {
+        return this.serviceCallService.findByUser(userId);
+    }
+
+    @Public()
     @Get("/:id")
     findById(@Param("id") id: string) {
         return this.serviceCallService.findById(id);
@@ -44,4 +50,3 @@ export class ServiceCallController {
         return this.serviceCallService.delete(id);
     }
 }
-

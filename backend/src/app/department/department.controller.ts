@@ -32,6 +32,18 @@ export class DepartmentController {
     }
 
     @Public()
+    @Get("/organization/:id")
+    @UseGuards(AuthGuard("jwt"))
+    @ApiBearerAuth("token")
+    findByOragnizationId(@Param("id") id: string) {
+        try {
+            return this.departmentService.findByOragnizationId(id);
+        } catch (error) {
+            throw new HttpException({ error: "No departments are found with this  organization id.", status: HttpStatus.BAD_REQUEST }, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Public()
     @Post("/create")
     create(@Body() departmentDto: DepartmentDto) {
         return this.departmentService.create(departmentDto);
@@ -54,4 +66,3 @@ export class DepartmentController {
         return this.departmentService.delete(id);
     }
 }
-

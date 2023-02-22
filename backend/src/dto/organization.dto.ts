@@ -2,7 +2,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import { IsEmail, IsNotEmpty, MaxLength, MinLength } from "class-validator";
 
 export class OrganizationDto {
-    @ApiProperty({ default: "jonasbrothers@getnada.com", description: "Its the email of organization." })
+    @ApiProperty({ default: "jonasbrothers@gmail.com", description: "Its the email of organization." })
     @IsNotEmpty()
     @IsEmail()
     email: string;
@@ -23,4 +23,3 @@ export class OrganizationDto {
     @MaxLength(11, { message: "The cellphone is not filled in correctly. It must be max 11 characters long." })
     cellphone: string;
 }
-

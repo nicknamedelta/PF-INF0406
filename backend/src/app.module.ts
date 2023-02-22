@@ -31,4 +31,3 @@ import { ServiceCallModule } from "./app/service-call/service-call.module";
     ],
 })
 export class AppModule {}
-

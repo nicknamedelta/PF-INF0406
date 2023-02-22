@@ -7,13 +7,13 @@ import { CONTEXT } from "src/constants";
 import { CreateError, DeleteError, GetError, UpdateError } from "src/errors/";
 import { ObjectIsEmpty } from "src/utils";
 import { OrganizationService } from "../organization/organization.service";
+import { DepartmentService } from "../department/department.service";
 
 @Injectable()
 export class UserService {
-    constructor(private prisma: PrismaService, private organizationService: OrganizationService) {}
+    constructor(private prisma: PrismaService, private organizationService: OrganizationService, private departamentService: DepartmentService) {}
 
     async create(dto: UserDto) {
-        let error = {};
         try {
             const hashedPassword = await bcrypt.hash(dto.password, 10);
 
@@ -48,15 +48,18 @@ export class UserService {
     }
 
     async findAll() {
+        let users: User[];
+
         try {
-            let users: User[];
-
-            users = await this.prisma.user.findMany();
-            if (users.length == 0) {
-                return { status: 400, error: "There are no registered users." };
-            }
-
-            users.forEach((user) => delete user.password);
+            users = await this.prisma.user.findMany({
+                include: {
+                    Department: true,
+                    Organization: true,
+                },
+            });
+            users.forEach((user) => {
+                delete user.password;
+            });
 
             return users;
         } catch (error) {
@@ -69,10 +72,6 @@ export class UserService {
             const user = await this.prisma.user.findUnique({
                 where: { email },
             });
-
-            if (!user) {
-                return { status: 400, error: "There are no users with this email." };
-            }
 
             delete user.password;
             return user;
@@ -109,4 +108,3 @@ export class UserService {
         }
     }
 }
-

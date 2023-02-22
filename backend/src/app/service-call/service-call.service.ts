@@ -49,13 +49,15 @@ export class ServiceCallService {
     }
 
     async findAll() {
-        try {
-            let services: ServiceCall[];
+        let services: ServiceCall[];
 
-            services = await this.prisma.serviceCall.findMany();
-            if (services.length == 0) {
-                return { status: 400, error: "None services have been found." };
-            }
+        try {
+            services = await this.prisma.serviceCall.findMany({
+                include: {
+                    Department: true,
+                    Organization: true,
+                },
+            });
 
             return services;
         } catch (error) {
@@ -67,6 +69,27 @@ export class ServiceCallService {
         try {
             const services = await this.prisma.serviceCall.findUnique({
                 where: { id },
+            });
+
+            if (!services) {
+                return { status: 400, error: "There are no services with this id." };
+            }
+
+            return services;
+        } catch (error) {
+            throw new HttpException(GetError(error, CONTEXT.SERVICE_CALL), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    async findByUser(id) {
+        let services: ServiceCall[];
+        try {
+            services = await this.prisma.serviceCall.findMany({
+                where: { userId: id },
+                include: {
+                    Department: true,
+                    Organization: true,
+                },
             });
 
             if (!services) {
@@ -107,4 +130,3 @@ export class ServiceCallService {
         }
     }
 }
-

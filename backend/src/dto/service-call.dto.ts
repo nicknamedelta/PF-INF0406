@@ -53,4 +53,3 @@ export class ServiceCallDto {
     @IsNotEmpty()
     departmentId: string;
 }
-

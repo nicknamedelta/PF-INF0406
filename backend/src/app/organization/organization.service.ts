@@ -27,9 +27,9 @@ export class OrganizationService {
     }
 
     async findAll() {
-        try {
-            let organizations: Organization[];
+        let organizations: Organization[];
 
+        try {
             organizations = await this.prisma.organization.findMany();
             if (organizations.length == 0) {
                 return { status: 400, error: "None organizations have been found." };
@@ -95,4 +95,3 @@ export class OrganizationService {
         }
     }
 }
-

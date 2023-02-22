@@ -13,3 +13,5 @@ Implementação do backend e frontend da aplicação.
 
 - Back-end:
   - Apresentação: [link para apresentação no Google Drive](https://drive.google.com/file/d/1R0prqjnZUy29XFmHm291om1oSYWPyuEZ/view?usp=sharing)
+- Front-end:
+  - Apresentação:[link para apresentação no Google Drive](https://drive.google.com/file/d/1wkbJN4VeYI4PqSf5Q7Z8llPpdcG3DPhA/view?usp=sharing)

@@ -41,4 +41,3 @@ export class UserDto {
     @IsNotEmpty()
     departmentId: string;
 }
-

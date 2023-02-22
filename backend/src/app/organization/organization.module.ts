@@ -9,4 +9,3 @@ import { OrganizationService } from "./organization.service";
     exports: [OrganizationService],
 })
 export class OrganizationModule {}
-
